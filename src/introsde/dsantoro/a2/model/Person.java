@@ -41,8 +41,9 @@ public class Person implements Serializable {
     private Date birthdate; 
     @Column(name="email")
     private String email;
+    @Transient
     @XmlElement(name="healthprofile")
-	private HealthProfile hProfile;		
+	private HealthProfile hProfile;
     
     
     // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
