@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class PersonTest {
 
-	static final String P_UNIT="introsde-2015-assignment-2"; 
+	static final String JPA_NAME="introsde-2015-assignment-2";
 	
 	@Test
 	public void readPersonListTest() {
@@ -135,8 +135,8 @@ public class PersonTest {
 
 	@BeforeClass
 	public static void beforeClass() {
-		System.out.println("Testing JPA on lifecoach database using '"+P_UNIT+"' persistence unit");
-		emf = Persistence.createEntityManagerFactory(P_UNIT);
+		System.out.println("Testing JPA on lifecoach database using '"+JPA_NAME+"' persistence unit");
+		emf = Persistence.createEntityManagerFactory(JPA_NAME);
 		em = emf.createEntityManager();
 	}
 

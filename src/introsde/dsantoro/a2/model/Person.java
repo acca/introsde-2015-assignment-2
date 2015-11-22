@@ -17,10 +17,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 @Entity  // indicates that this class is an entity to persist in DB
 @Table(name="Person") // to whole table must be persisted 
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
 @XmlRootElement
+@XmlType (propOrder={"firstname","lastname","birthdate"}) // TODO Add HelthProfile in sortOrder
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id // defines this attributed as the one that identifies the entity
@@ -32,6 +34,7 @@ public class Person implements Serializable {
     private int idPerson;
     @Column(name="lastname")
     private String lastname;
+    @XmlElement(name="firstname")
     @Column(name="name")
     private String name;
     @Column(name="username")
@@ -41,18 +44,14 @@ public class Person implements Serializable {
     private Date birthdate; 
     @Column(name="email")
     private String email;
-    @Transient
-    @XmlElement(name="healthprofile")
-	private HealthProfile hProfile;
-    
     
     // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    private List<HealthProfileHistory> healthProfileHistory;
+    private List<LifeStatus> lifeStatus;
     
-    @XmlElementWrapper(name = "measureHistory")
-    public List<HealthProfileHistory> getLifeStatus() {
-        return healthProfileHistory;
+    @XmlElementWrapper(name = "Measurements")
+    public List<LifeStatus> getLifeStatus() {
+        return lifeStatus;
     }
     // add below all the getters and setters of all the private attributes
     
@@ -78,10 +77,6 @@ public class Person implements Serializable {
     public String getEmail(){
         return email;
     }
-    public HealthProfile getHProfile() {
-		return hProfile;
-	}
-	
     
     // setters
     public void setIdPerson(int idPerson){
@@ -104,18 +99,14 @@ public class Person implements Serializable {
     public void setEmail(String email){
         this.email = email;
     }
-    public void setHProfile(HealthProfile hProfile) {
-		this.hProfile = hProfile;
-	}
     
-    // DAO methods
     public static Person getPersonById(int personId) {
         EntityManager em = HealthCoachDao.instance.createEntityManager();
         Person p = em.find(Person.class, personId);
         HealthCoachDao.instance.closeConnections(em);
         return p;
     }
-
+    
     public static List<Person> getAll() {
         EntityManager em = HealthCoachDao.instance.createEntityManager();
         List<Person> list = em.createNamedQuery("Person.findAll", Person.class)

@@ -6,14 +6,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public enum HealthCoachDao {
-    instance;
+    instance;	
+	static final String JPA_NAME="introsde-2015-assignment-2";
     private EntityManagerFactory emf;
 
     private HealthCoachDao() {
         if (emf!=null) {
             emf.close();
         }
-        emf = Persistence.createEntityManagerFactory("introsde-2015-assignment-2");
+        emf = Persistence.createEntityManagerFactory(JPA_NAME);
     }
 
     public EntityManager createEntityManager() {

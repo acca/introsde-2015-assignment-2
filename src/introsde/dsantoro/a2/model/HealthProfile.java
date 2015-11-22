@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name="healthprofile")
-@XmlType(propOrder = { "weight", "height", "BMI" })
+//@XmlType(propOrder = { "weight", "height", "BMI" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HealthProfile {
 	private double weight; // in kg
