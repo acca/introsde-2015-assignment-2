@@ -1,4 +1,5 @@
 package introsde.dsantoro.a2.resources;
+import introsde.dsantoro.a2.model.HealthProfile;
 import introsde.dsantoro.a2.model.Person;
 
 import java.io.IOException;
@@ -68,7 +69,11 @@ public class PersonCollectionResource {
     @Produces({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     public Person newPerson(Person person) throws IOException {
-        System.out.println("Creating new person...123");            
+        System.out.println("Creating new person...123");
+        List<HealthProfile> hp = person.getHealthProfile();
+        for (HealthProfile healthProfile : hp) {
+			healthProfile.setPerson(person);
+		}
         return Person.savePerson(person);
     }
     

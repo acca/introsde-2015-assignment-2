@@ -28,7 +28,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Table(name = "HealthProfile")
-@NamedQuery(name = "healthprofile.findAll", query = "SELECT l FROM HealthProfile l")
+@NamedQuery(name = "HealthProfile.findAll", query = "SELECT l FROM HealthProfile l")
 @XmlRootElement(name="healthprofile")
 //@XmlType(propOrder = { "weight", "height", "BMI" })
 //@XmlAccessorType(XmlAccessType.FIELD)
@@ -50,7 +50,7 @@ public class HealthProfile implements Serializable {
 	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef", insertable = true, updatable = true)
 	private MeasureDefinition measureDefinition;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="idPerson",referencedColumnName="idPerson")
 	private Person person;
 

@@ -63,10 +63,9 @@ public class PersonResource {
 
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response putPerson(Person person) {
-        System.out.println("--> Updating Person... " +this.id);
+    public Response putPerson(Person person) { 
+    	System.out.println("--> Updating Person... " +this.id);
         System.out.println("--> "+person.toString());
-        Person.updatePerson(person);
         Response res;
         Person existing = getPersonById(this.id);
 
@@ -75,6 +74,8 @@ public class PersonResource {
         } else {
             res = Response.created(uriInfo.getAbsolutePath()).build();
             person.setIdPerson(this.id);
+            // Unset HealthProfile if present since it is updated using another REST method
+            person.setHealthProfile(null);
             Person.updatePerson(person);
         }
         return res;
@@ -94,9 +95,9 @@ public class PersonResource {
 
         // this will work within a Java EE container, where not DAO will be needed
         //Person person = entityManager.find(Person.class, personId); 
-
+        System.out.println("--> Checking presence of person with id: " +this.id);
         Person person = Person.getPersonById(personId);
-        System.out.println("Person: "+person.toString());
+        if (person == null) System.out.println("--> Person not present, id: " +this.id);
         return person;
     }
 }

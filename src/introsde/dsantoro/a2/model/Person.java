@@ -51,7 +51,7 @@ public class Person implements Serializable {
 
  // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    private List<HealthProfile> healthprofile;
+    private List<HealthProfile> healthProfile;
     
     @XmlElementWrapper(name = "Measurements")
     public List<LifeStatus> getLifeStatus() {
@@ -60,7 +60,11 @@ public class Person implements Serializable {
     
     @XmlElementWrapper(name = "healthProfile")
     public List<HealthProfile> getHealthProfile() {
-        return healthprofile;
+        return healthProfile;
+    }
+    
+    public void setHealthProfile(List<HealthProfile> hp) {
+        this.healthProfile = hp;
     }
     
     // add below all the getters and setters of all the private attributes
@@ -126,7 +130,7 @@ public class Person implements Serializable {
     }
 
     public static Person savePerson(Person p) {
-        EntityManager em = HealthCoachDao.instance.createEntityManager();
+        EntityManager em = HealthCoachDao.instance.createEntityManager();        
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.persist(p);
