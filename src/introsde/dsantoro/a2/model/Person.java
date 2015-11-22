@@ -48,11 +48,21 @@ public class Person implements Serializable {
     // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<LifeStatus> lifeStatus;
+
+ // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
+    @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    private List<HealthProfile> healthprofile;
     
     @XmlElementWrapper(name = "Measurements")
     public List<LifeStatus> getLifeStatus() {
         return lifeStatus;
     }
+    
+    @XmlElementWrapper(name = "healthProfile")
+    public List<HealthProfile> getHealthProfile() {
+        return healthprofile;
+    }
+    
     // add below all the getters and setters of all the private attributes
     
     // getters
