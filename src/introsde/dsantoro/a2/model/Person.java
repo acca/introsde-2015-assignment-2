@@ -3,6 +3,7 @@ package introsde.dsantoro.a2.model;
 import introsde.dsantoro.a2.dao.HealthCoachDao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.text.DateFormat;
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 @Entity  // indicates that this class is an entity to persist in DB
 @Table(name="Person") // to whole table must be persisted 
@@ -49,9 +51,13 @@ public class Person implements Serializable {
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<LifeStatus> lifeStatus;
 
- // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
+    // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<HealthProfile> healthProfile;
+    
+    // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
+    @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    private List<HealthProfileHistory> healthProfileHistory;
     
     @XmlElementWrapper(name = "Measurements")
     public List<LifeStatus> getLifeStatus() {
@@ -61,6 +67,12 @@ public class Person implements Serializable {
     @XmlElementWrapper(name = "healthProfile")
     public List<HealthProfile> getHealthProfile() {
         return healthProfile;
+    }
+    
+    @XmlTransient
+    @XmlElementWrapper(name = "healthProfileHistory")
+    public List<HealthProfileHistory> getHealthProfileHistory() {
+        return healthProfileHistory;
     }
     
     public void setHealthProfile(List<HealthProfile> hp) {
@@ -158,5 +170,29 @@ public class Person implements Serializable {
         tx.commit();
         HealthCoachDao.instance.closeConnections(em);
     }
+    
+    @XmlTransient
+    @XmlElementWrapper(name = "healthProfileHistory")
+	public List<HealthProfileHistory> getHealthProfileHistory(String measureType) {
+    	List<HealthProfileHistory> hpList = new ArrayList<HealthProfileHistory> ();
+    	for (HealthProfileHistory hpH : this.healthProfileHistory) {
+			if (hpH.getMeasureDefinition().getMeasureName().equals(measureType)) {
+				hpList.add(hpH);
+			}
+		} 	 	
+    	return hpList;	
+	}
+    
+    @XmlTransient
+    @XmlElementWrapper(name = "healthProfileHistory")
+	public List<HealthProfileHistory> getHealthProfileHistory(int mid) {
+    	List<HealthProfileHistory> hpList = new ArrayList<HealthProfileHistory> ();    	
+    	for (HealthProfileHistory hpH : this.healthProfileHistory) {
+			if (hpH.getIdMeasureHistory() == mid) {
+				hpList.add(hpH);
+			}
+		} 	 	
+    	return hpList;	
+	}
     
 }

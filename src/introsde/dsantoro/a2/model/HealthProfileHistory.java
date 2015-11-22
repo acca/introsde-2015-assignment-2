@@ -22,6 +22,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -51,7 +52,7 @@ public class HealthProfileHistory implements Serializable {
 	private String value;
 
 	@ManyToOne
-	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
+	@JoinColumn(name = "idMeasureDefinition", referencedColumnName = "idMeasureDef")
 	private MeasureDefinition measureDefinition;
 
 	// notice that we haven't included a reference to the history in Person
@@ -95,6 +96,7 @@ public class HealthProfileHistory implements Serializable {
 	    this.measureDefinition = param;
 	}
 
+	@XmlTransient
 	public Person getPerson() {
 	    return person;
 	}
@@ -104,7 +106,7 @@ public class HealthProfileHistory implements Serializable {
 	}
 
 	// database operations
-	public static HealthProfileHistory getHealthMeasureHistoryById(int id) {
+	public static HealthProfileHistory getHealthProfileHistoryById(int id) {
 		EntityManager em = HealthCoachDao.instance.createEntityManager();
 		HealthProfileHistory p = em.find(HealthProfileHistory.class, id);
 		HealthCoachDao.instance.closeConnections(em);
@@ -113,12 +115,12 @@ public class HealthProfileHistory implements Serializable {
 	
 	public static List<HealthProfileHistory> getAll() {
 		EntityManager em = HealthCoachDao.instance.createEntityManager();
-	    List<HealthProfileHistory> list = em.createNamedQuery("HealthMeasureHistory.findAll", HealthProfileHistory.class).getResultList();
+	    List<HealthProfileHistory> list = em.createNamedQuery("HealthProfileHistory.findAll", HealthProfileHistory.class).getResultList();
 	    HealthCoachDao.instance.closeConnections(em);
 	    return list;
 	}
 	
-	public static HealthProfileHistory saveHealthMeasureHistory(HealthProfileHistory p) {
+	public static HealthProfileHistory saveHealthProfileHistory(HealthProfileHistory p) {
 		EntityManager em = HealthCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -128,7 +130,7 @@ public class HealthProfileHistory implements Serializable {
 	    return p;
 	}
 	
-	public static HealthProfileHistory updateHealthMeasureHistory(HealthProfileHistory p) {
+	public static HealthProfileHistory updateHealthProfileHistory(HealthProfileHistory p) {
 		EntityManager em = HealthCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -138,7 +140,7 @@ public class HealthProfileHistory implements Serializable {
 	    return p;
 	}
 	
-	public static void removeHealthMeasureHistory(HealthProfileHistory p) {
+	public static void removeHealthProfileHistory(HealthProfileHistory p) {
 		EntityManager em = HealthCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -147,4 +149,12 @@ public class HealthProfileHistory implements Serializable {
 	    tx.commit();
 	    HealthCoachDao.instance.closeConnections(em);
 	}
+	
+	public static List<HealthProfileHistory> getAllOfType(int mesId) {
+		EntityManager em = HealthCoachDao.instance.createEntityManager();
+	    List<HealthProfileHistory> list = em.createNamedQuery("HealthProfileHistory.findAll", HealthProfileHistory.class).getResultList();
+	    HealthCoachDao.instance.closeConnections(em);
+	    return list;
+	}
+	
 }

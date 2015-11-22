@@ -121,4 +121,11 @@ public class MeasureDefinition implements Serializable {
 	    tx.commit();
 	    HealthCoachDao.instance.closeConnections(em);
 	}
+	
+	public static MeasureDefinition getMeasureDefinitionIdByName(String name) {
+		EntityManager em = HealthCoachDao.instance.createEntityManager();
+		MeasureDefinition p = em.find(MeasureDefinition.class, name);
+		HealthCoachDao.instance.closeConnections(em);
+		return p;
+	}
 }

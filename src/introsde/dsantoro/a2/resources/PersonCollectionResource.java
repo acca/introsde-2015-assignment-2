@@ -1,5 +1,6 @@
 package introsde.dsantoro.a2.resources;
 import introsde.dsantoro.a2.model.HealthProfile;
+import introsde.dsantoro.a2.model.HealthProfileHistory;
 import introsde.dsantoro.a2.model.Person;
 
 import java.io.IOException;
@@ -83,7 +84,17 @@ public class PersonCollectionResource {
     // Allows to type http://localhost:599/base_url/1
     // 1 will be treaded as parameter todo and passed to PersonResource
     @Path("{personId}")
-    public PersonResource getPerson(@PathParam("personId") int id) {
+    public PersonResource getPerson(@PathParam("personId") int id) {    	
         return new PersonResource(uriInfo, request, id);
+    }
+    
+    @Path("{personId}/{measureType}")
+    public HealthProfileHistoryResource getPersonHealthProfileHistory(@PathParam("personId") int personId, @PathParam("measureType") String measureType) {
+        return new HealthProfileHistoryResource(uriInfo, request, personId, measureType);
+    }
+    
+    @Path("{personId}/{measureType}/{mid}")
+    public HealthProfileHistoryResource getPersonHealthProfileHistory(@PathParam("personId") int personId, @PathParam("measureType") String measureType, @PathParam("mid") int mid) {
+        return new HealthProfileHistoryResource(uriInfo, request, personId, measureType, mid);
     }
 }
