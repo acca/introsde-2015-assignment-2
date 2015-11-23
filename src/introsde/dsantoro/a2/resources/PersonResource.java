@@ -47,6 +47,7 @@ public class PersonResource {
         Person person = this.getPersonById(id);
         if (person == null)
             throw new RuntimeException("Get: Person with " + id + " not found");
+        person.setHealthProfileHistory(null);        
         return person;
     }
 

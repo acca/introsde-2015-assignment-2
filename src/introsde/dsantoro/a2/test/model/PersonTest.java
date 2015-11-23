@@ -91,7 +91,7 @@ public class PersonTest {
 		List<Person> newPersonList = tq.getResultList();
 		
 		assertEquals("Table has one entities", 1, newPersonList.size());
-		assertEquals("Table has correct name", "test", newPersonList.get(0).getName());
+		assertEquals("Table has correct name", "test", newPersonList.get(0).getFirstname());
 
 		System.out.println("--> TEST: addPerson => deleting the new person");
 		em.getTransaction().begin();

@@ -27,9 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 //@XmlType (propOrder={"firstname","lastname","birthdate"}) // TODO Add HelthProfile in sortOrder
 public class Person implements Serializable {
-	public Person(){
-		
-	}
     private static final long serialVersionUID = 1L;
     @Id // defines this attributed as the one that identifies the entity
     @GeneratedValue(generator="sqlite_person")
@@ -83,6 +80,10 @@ public class Person implements Serializable {
         this.healthProfile = hp;
     }
     
+    public void setHealthProfileHistory(List<HealthProfileHistory> hpL) {
+        this.healthProfileHistory = hpL;
+    }
+    
     // add below all the getters and setters of all the private attributes
     
     // getters
@@ -93,7 +94,7 @@ public class Person implements Serializable {
     public String getLastname(){
         return lastname;
     }
-    public String getName(){
+    public String getFirstname(){
         return firstname;
     }
     public String getUsername(){
@@ -184,11 +185,12 @@ public class Person implements Serializable {
 				hpList.add(hpH);
 			}
 		} 	 	
-    	return hpList;	
+    	return hpList;
 	}
     
     //@XmlTransient
-    @XmlElementWrapper(name = "healthProfileHistory")
+	//@XmlElement(name = "healthProfileHistory")
+    //@XmlElementWrapper(name = "healthProfileHistory")
 	public List<HealthProfileHistory> getHealthProfileHistory(int mid) {
     	List<HealthProfileHistory> hpList = new ArrayList<HealthProfileHistory> ();    	
     	for (HealthProfileHistory hpH : this.healthProfileHistory) {
