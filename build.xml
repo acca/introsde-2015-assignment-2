@@ -116,6 +116,19 @@
                 </classpath>
             </java>
         </target>
+    	<target name="execute.client" depends="install">
+    	            <echo message="app start introsde.dsantoro.a2.client.MyClient in ${build.dir}" />
+    	            <java classname="introsde.dsantoro.a2.client.MyClient" classpath="${build.dir}" fork="true">
+    	                <arg value="$JAVA_OPTS  -cp" />
+    	                <classpath>
+    	                    <path location="build" />
+    	                    <fileset dir="WebContent/WEB-INF/lib">
+    	                        <include name="**/*.jar" />
+    	                        <include name="*.jar" />
+    	                    </fileset>
+    	                </classpath>
+    	            </java>
+    	        </target>
         <!-- Run the JUnit Tests -->
         <!-- Output is XML, could also be plain-->
         <target name="junit">
