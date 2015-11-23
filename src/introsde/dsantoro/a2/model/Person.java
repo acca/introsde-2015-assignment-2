@@ -23,9 +23,13 @@ import javax.xml.bind.annotation.XmlType;
 @Entity  // indicates that this class is an entity to persist in DB
 @Table(name="Person") // to whole table must be persisted 
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
+//@XmlRootElement(name="people")
 @XmlRootElement
-@XmlType (propOrder={"firstname","lastname","birthdate"}) // TODO Add HelthProfile in sortOrder
+//@XmlType (propOrder={"firstname","lastname","birthdate"}) // TODO Add HelthProfile in sortOrder
 public class Person implements Serializable {
+	public Person(){
+		
+	}
     private static final long serialVersionUID = 1L;
     @Id // defines this attributed as the one that identifies the entity
     @GeneratedValue(generator="sqlite_person")
@@ -38,7 +42,7 @@ public class Person implements Serializable {
     private String lastname;
     @XmlElement(name="firstname")
     @Column(name="name")
-    private String name;
+    private String firstname;
     @Column(name="username")
     private String username;
     @Temporal(TemporalType.DATE) // defines the precision of the date attribute
@@ -47,9 +51,9 @@ public class Person implements Serializable {
     @Column(name="email")
     private String email;
     
-    // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
-    @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    private List<LifeStatus> lifeStatus;
+//    // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
+//    @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+//    private List<LifeStatus> lifeStatus;
 
     // mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
@@ -59,17 +63,17 @@ public class Person implements Serializable {
     @OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<HealthProfileHistory> healthProfileHistory;
     
-    @XmlElementWrapper(name = "Measurements")
-    public List<LifeStatus> getLifeStatus() {
-        return lifeStatus;
-    }
+//    @XmlElementWrapper(name = "Measurements")
+//    public List<LifeStatus> getLifeStatus() {
+//        return lifeStatus;
+//    }
     
     @XmlElementWrapper(name = "healthProfile")
     public List<HealthProfile> getHealthProfile() {
         return healthProfile;
     }
     
-    @XmlTransient
+    //@XmlTransient
     @XmlElementWrapper(name = "healthProfileHistory")
     public List<HealthProfileHistory> getHealthProfileHistory() {
         return healthProfileHistory;
@@ -90,7 +94,7 @@ public class Person implements Serializable {
         return lastname;
     }
     public String getName(){
-        return name;
+        return firstname;
     }
     public String getUsername(){
         return username;
@@ -112,7 +116,7 @@ public class Person implements Serializable {
         this.lastname = lastname;
     }
     public void setName(String name){
-        this.name = name;
+        this.firstname = name;
     }
     public void setUsername(String username){
         this.username = username;
@@ -171,8 +175,8 @@ public class Person implements Serializable {
         HealthCoachDao.instance.closeConnections(em);
     }
     
-    @XmlTransient
-    @XmlElementWrapper(name = "healthProfileHistory")
+    //@XmlTransient
+    //@XmlElementWrapper(name = "healthProfileHistory")
 	public List<HealthProfileHistory> getHealthProfileHistory(String measureType) {
     	List<HealthProfileHistory> hpList = new ArrayList<HealthProfileHistory> ();
     	for (HealthProfileHistory hpH : this.healthProfileHistory) {
@@ -183,7 +187,7 @@ public class Person implements Serializable {
     	return hpList;	
 	}
     
-    @XmlTransient
+    //@XmlTransient
     @XmlElementWrapper(name = "healthProfileHistory")
 	public List<HealthProfileHistory> getHealthProfileHistory(int mid) {
     	List<HealthProfileHistory> hpList = new ArrayList<HealthProfileHistory> ();    	

@@ -34,7 +34,7 @@ public class MeasureDefinition implements Serializable {
 
 	@XmlElement(name="measure")
 	@Column(name="measureName")
-	private String measureName;
+	private String measure;
 
 	@Column(name="measureType")
 	private String measureType;
@@ -54,11 +54,11 @@ public class MeasureDefinition implements Serializable {
 	}
 
 	public String getMeasureName() {
-		return this.measureName;
+		return this.measure;
 	}
 
 	public void setMeasureName(String measureName) {
-		this.measureName = measureName;
+		this.measure = measureName;
 	}
 
 	public String getMeasureType() {

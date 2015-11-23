@@ -4,7 +4,6 @@ import introsde.dsantoro.a2.dao.HealthCoachDao;
 //import introsde.rest.ehealth.model.Person;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="HealthMeasureHistory")
 @NamedQuery(name="HealthProfileHistory.findAll", query="SELECT h FROM HealthProfileHistory h")
-@XmlRootElement
+@XmlRootElement(name="healthprofilehistory")
 public class HealthProfileHistory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +43,7 @@ public class HealthProfileHistory implements Serializable {
 	@Column(name="idMeasureHistory")
 	private int idMeasureHistory;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="timestamp")
 	private Date timestamp;
 

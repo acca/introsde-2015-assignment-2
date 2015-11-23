@@ -64,7 +64,7 @@ public class HealthProfileHistoryResource {
         Person person = this.getPersonById(personId);
         if (person == null)
             throw new RuntimeException("Get: Person with " + personId + " not found");
-        if (this.mid != -1){
+        if (this.mid != -1){        	
         	return person.getHealthProfileHistory(this.mid);
         } else {
         	return person.getHealthProfileHistory(this.measureType);	
