@@ -179,8 +179,8 @@ public class MyClient {
         //res = service.path(url).request().accept(MediaType.APPLICATION_XML).get();
         //pXml(res.readEntity(String.class));
         p = res.readEntity(Person.class);
-        int pId = p.getIdPerson();
-        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pId != -1) ) {
+        int pIdxml = p.getIdPerson();
+        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pIdxml != -1) ) {
         	pXml("=> Result: OK");	
         }else{
         	pXml("=> Result: ERROR");
@@ -198,8 +198,8 @@ public class MyClient {
         res.bufferEntity();
         //res = service.path(url).request().accept(MediaType.APPLICATION_XML).get();
         p = res.readEntity(Person.class);
-        pId = p.getIdPerson();
-        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pId != -1) ) {
+        int pIdjson = p.getIdPerson();
+        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pIdjson != -1) ) {
         	pJson("=> Result: OK");	
         }else{
         	pJson("=> Result: ERROR");
@@ -209,6 +209,50 @@ public class MyClient {
         pJson(printResBody(res));
         this.jsonOut.close();
         this.xmlOut.close();
+        
+        // Step 3.5) - xml        
+        url="/person/" + pIdxml;
+        rqst="5";
+        
+        
+        pXml("\nRequest #"+rqst+" DELETE " + url + " Accept: APPLICATION/XML Content-type: " + XML);
+        res = service.path(url).request().delete();
+        res = service.path(url).request().accept(MediaType.APPLICATION_JSON).get();
+        res.bufferEntity();
+        String delP = res.readEntity(String.class);
+        pXml(delP);
+        
+        //p = res.readEntity(Person.class);
+        //int pId = p.getIdPerson();
+//        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pId != -1) ) {
+//        	pXml("=> Result: OK");	
+//        }else{
+//        	pXml("=> Result: ERROR");
+//        }
+//        res.bufferEntity();
+        pXml(printStatus(res));
+        pXml(printResBody(res));
+              
+        // Step 3.5) - json
+        
+//        newPerson = "{\"lastname\": \"Norris\",\"username\": null,\"birthdate\": \"01/01/1945\",\"email\": null,\"healthProfile\": [{\"value\": \"78.9\",\"measureDefinition\": {\"idMeasureDef\": 1,\"measureType\": \"double\",\"measureName\": \"weight\",\"measure\": \"weight\"}},{\"value\": \"172\",\"measureDefinition\": {\"idMeasureDef\": 2,\"measureType\": \"double\",\"measureName\": \"height\",\"measure\": \"height\"}}],\"firstname\": \"Chuck\"}";
+//        
+//        pJson("\nRequest #"+rqst+" POST " + url + " Accept: " + JSON + " Content-type: " + JSON);
+//        res = service.path(url).request().post(Entity.json(newPerson));
+//        res.bufferEntity();
+//        //res = service.path(url).request().accept(MediaType.APPLICATION_XML).get();
+//        p = res.readEntity(Person.class);
+//        pId = p.getIdPerson();
+//        if ( ((res.getStatus() == 200) || (res.getStatus() == 202)) && (pId != -1) ) {
+//        	pJson("=> Result: OK");	
+//        }else{
+//        	pJson("=> Result: ERROR");
+//        }
+//        res.bufferEntity();
+//        pJson(printStatus(res));
+//        pJson(printResBody(res));
+//        this.jsonOut.close();
+//        this.xmlOut.close();
 	}
     
 }

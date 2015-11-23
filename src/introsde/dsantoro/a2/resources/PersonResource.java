@@ -1,6 +1,7 @@
 package introsde.dsantoro.a2.resources;
 
 import introsde.dsantoro.a2.model.Person;
+import introsde.dsantoro.a2.resources.logger.NotFoundExceptionHandler;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -98,7 +100,10 @@ public class PersonResource {
         //Person person = entityManager.find(Person.class, personId); 
         System.out.println("--> Checking presence of person with id: " +this.id);
         Person person = Person.getPersonById(personId);
-        if (person == null) System.out.println("--> Person not present, id: " +this.id);
+        if (person == null) {
+        	System.out.println("--> Person not present, id: " +this.id);
+        	throw new NotFoundException();
+        }
         return person;
     }
 }
