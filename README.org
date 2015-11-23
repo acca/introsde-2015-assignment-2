@@ -3,6 +3,6 @@
 #+DATE: 23/11/2015
 
 * Assignment information
-  - Student: Daniele Santoro
+  - Student: /Daniele Santoro/
   - I've worked alone developing both the server and the client
-  - URL of my server which is test by the client: https://sleepy-caverns-6041.herokuapp.com/dsantoroa2/
+  - URL of my server which is tested by the client: https://sleepy-caverns-6041.herokuapp.com/dsantoroa2/
