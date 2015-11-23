@@ -9,6 +9,7 @@ import introsde.dsantoro.a2.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -85,32 +86,34 @@ public class HealthProfileHistoryResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON ,  MediaType.APPLICATION_XML})
-    public HealthProfile newHealthProfile(HealthProfile healthProfile) throws IOException {    	
-        System.out.println("Creating new new HealthProfile for person");
-        
+    public HealthProfile newHealthProfile(HealthProfile newMeasure) throws IOException {    	
+        System.out.println("Saving new value for person HealthProfile and saving the old one");
+        HealthProfile newHP = null;
         Person person = this.getPersonById(personId);
         if (person == null)
             throw new RuntimeException("Get: Person with " + personId + " not found");
-        System.out.println(person.getHealthProfile().get(0).getValue());
-        //List<HealthProfile> hpL = person.getHealthProfile();
-        for (HealthProfile hp : person.getHealthProfile()) {
+        List<HealthProfile> hpL = person.getHealthProfile();
+        for (HealthProfile hp : hpL) {
 			if (hp.getMeasureDefinition().getMeasureName().equals(this.measureType)) {
-				System.out.println("Trovata misura :" + this.measureType + " e valore: " + hp.getValue() + " vorrei settare value: " + healthProfile.getValue());
-				hp.setValue(healthProfile.getValue());
-				hp.setPerson(person);
+				String oldValue = hp.getValue();
+				newHP = hp;
+				// Saving new value in person object
+				System.out.println("Setting " + this.measureType + " value from " + hp.getValue() + " to " + newMeasure.getValue() + " in person");
+				hp.setValue(newMeasure.getValue());
+				person.setHealthProfile(hpL);
+
+				// Saving old value in person healthprofile history object
+				System.out.println("Setting " + this.measureType + " to new value " + newMeasure.getValue() + " in person healtprofile history");
+				HealthProfileHistory hpH = new HealthProfileHistory();
+				hpH.setTimestamp(new Date());
+				hpH.setPerson(person);
+				hpH.setMeasureDefinition(hp.getMeasureDefinition());
+				hpH.setValue(oldValue);				
+				person.getHealthProfileHistory().add(hpH);			
 			}
-			//hpL.add(hp);
 		}
-        //person.setHealthProfile(hpL);
-        
-        //person.getHealthProfile().get(0).setValue("555");
         Person.updatePerson(person);
-//        List<HealthProfile> hp = person.getHealthProfile();
-//        for (HealthProfile healthProfile : hp) {
-//			healthProfile.setPerson(person);
-//		}
-        //System.out.println(healthProfile.toString());
-        return null;
+        return newHP;
     }
 
     private Person getPersonById(int personId) {
